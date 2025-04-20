@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Homepage</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/src/library/css/style1.css">
+  <link rel="stylesheet" href="/src/library/css/githubonlydesign.css">
+  <link rel="stylesheet" href="/src/library/css/spotify.css">
+  <link rel="stylesheet" href="/src/library/css/websitepopups.css">
+</head>
+<body>
+  <!--===============================================================================================================================================-->
+  <!-- Navigation Bar -->
+<nav id="nav">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="#hero">Portfolio</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#website">Check my Websites</a></li>
+      </ul>
+      <div class="nav-toggle">
+        <i class="fas fa-bars"></i>
+      </diV>
+      <!-- Dark Mode Toggle -->
+  <div class="theme-toggle">
+    <input type="checkbox" id="darkmode-toggle" />
+    <label for="darkmode-toggle" class="toggle-label">
+      <i class="fas fa-moon"></i>
+      <i class="fas fa-sun"></i>
+      <span class="toggle-ball"></span>
+    </label>
+  </div>
+  </div>
+</nav>
+<!--===============================================================================================================================================-->
+
+  <!-- Updated Hero Section with Slideshow -->
+<section id="hero" class="hero">
+  <div class="slideshow-container">
+    <!-- Slide 1 -->
+    <div class="hero-slide active" style="background-image: linear-gradient(135deg, rgba(168, 237, 234, 0.8), rgba(254, 214, 227, 0.8)), url('https://source.unsplash.com/random/1920x1080/?developer')">
+      <div class="hero-content">
+        <h1 class="typewriter">Charles Melchor</h1>
+        <p class="fade-in">Web Developer & Designer</p>
+      </div>
+    </div>
+    
+    <!-- Slide 2 -->
+    <div class="hero-slide" style="background-image: linear-gradient(135deg, rgba(168, 237, 234, 0.8), rgba(254, 214, 227, 0.8)), url('https://source.unsplash.com/random/1920x1080/?coding')">
+      <div class="hero-content">
+        <h1>Creative Solutions</h1>
+        <p class="fade-in">Innovative designs for modern problems</p>
+      </div>
+    </div>
+    
+    <!-- Slide 3 -->
+    <div class="hero-slide" style="background-image: linear-gradient(135deg, rgba(168, 237, 234, 0.8), rgba(254, 214, 227, 0.8)), url('https://source.unsplash.com/random/1920x1080/?technology')">
+      <div class="hero-content">
+        <h1>Let's Collaborate</h1>
+        <p class="fade-in">Building the future together</p>
+      </div>
+    </div>
+    
+    <a href="#about" class="scroll-down">↓</a>
+    
+    <!-- Slide indicators -->
+    <div class="slide-indicators">
+      <span class="indicator active"></span>
+      <span class="indicator"></span>
+      <span class="indicator"></span>
+    </div>
+  </div>
+</section>
+<!--===============================================================================================================================================-->
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="about-content">
+      <div class="about-image">
+        <img src="/src/library/images/GmostlnaAAAe4PN.jpg" alt="Your Image">
+      </div>
+      <div class="about-text">
+        <h2>About Me</h2>
+        <p>I’m a creative passionate about design and development. And I love integrating AI into my coding work(only coding related, not in any artforms or whatever), I don't use(depends on the difficulty) it too much dependently but learning how it gives me the code that I need really helps a lot with efficiency in my work.</p>
+      </div>
+    </div>
+  </section>
+<!--===============================================================================================================================================-->
+
+  <!-- Updated Skills Section with Hover Popups -->
+<section id="skills" class="skills">
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <!-- Skill 1 -->
+    <div class="skill-card">
+      <div class="skill-content">
+        <i class="fas fa-code"></i>
+        <h3>Web Development</h3>
+        <h2>Development of the web using AI</h2>
+      </div>
+      <div class="skill-popup">
+        <img src="/src/library/images/webdev.png" alt="Web Development">
+        <div class="popup-text">
+          <h4>Web Development</h4>
+          <p>Modern frameworks, responsive design, and clean code practices</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 2 -->
+    <div class="skill-card">
+      <div class="skill-content">
+        <i class="fas fa-paint-brush"></i>
+        <h3>UI/UX Design</h3>
+        <h2>Just designing</h2>
+      </div>
+      <div class="skill-popup">
+        <img src="/src/library/images/UIUX.png" alt="UI/UX Design">
+        <div class="popup-text">
+          <h4>UI/UX Design</h4>
+          <p>User-centered designs with intuitive interfaces and beautiful aesthetics</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill 3 -->
+    <div class="skill-card">
+      <div class="skill-content">
+        <i class="fas fa-chart-line"></i>
+        <h3>Data Analysis</h3>
+        <h2>Analysis of data</h2>
+      </div>
+      <div class="skill-popup">
+        <img src="/src/library/images/DataAnalysis.png" alt="Data Analysis">
+        <div class="popup-text">
+          <h4>Data Analysis</h4>
+          <p>Transforming raw data into actionable insights and visualizations</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--===============================================================================================================================================-->
+  <!-- Projects Section -->
+  <section id="projects" class="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="https://cdn.pixabay.com/photo/2018/05/18/15/30/web-design-3411373_1280.jpg" alt="Project 1">
+        <h3>DormiApp(website that introduces functionality and design, now deprecated(too much goobledygook))</h3>
+        <p>My very first project on web development(with the aid/use of AI)</p>
+      </div>
+      <div class="project-card">
+        <img src="/src/library/images/teturisu.png" alt="Project 2">
+        <h3>Teturisu</h3>
+        <p>My first delve into Java game development</p>
+      </div>
+      <div class="project-card">
+        <img src="/src/library/images/neko manga app.png" alt="Project 3">
+        <h3>Manga Neko</h3>
+        <p>My first delve integrating API and database</p>
+      </div>
+    </div>
+  </section>
+<!--===============================================================================================================================================-->
+<!--Social Contacts section -->
+<!-- Social Media Status Section -->
+<section id="social-status" class="social-status">
+  <h2>My Social Presence</h2>
+  <div class="social-grid">
+    
+    <!-- Twitter Embed -->
+    <div class="social-card twitter">
+      <div class="social-header">
+        <i class="fab fa-twitter"></i>
+        <h3>Latest Tweet</h3>
+      </div>
+      <div class="twitter-embed" id="twitter-embed">
+        <!-- Twitter API will load content here -->
+        <div class="loading-spinner"></div>
+      </div>
+      <a href="https://x.com/charlsuuu_des" target="_blank" class="social-link">View Profile →</a>
+    </div>
+    
+    <!-- GitHub Activity -->
+    <div class="social-card github">
+      <div class="social-header">
+        <i class="fab fa-github"></i>
+        <h3>GitHub Activity</h3>
+      </div>
+      <div class="github-activity" id="github-activity">
+        <!-- GitHub API will load content here -->
+        <div class="loading-spinner"></div>
+      </div>
+      <a href="https://github.com/Tohbuu" target="_blank" class="social-link">View Profile →</a>
+    </div>
+</section>
+<!--===============================================================================================================================================-->
+<!-- Spotify Playlists Section -->
+<div class="social-card spotify">
+  <div class="social-header">
+    <i class="fab fa-spotify"></i>
+    <h3>My Playlists</h3>
+  </div>
+  
+  <div class="spotify-playlists">
+    <!-- Playlist 1 -->
+    <div class="playlist-card">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/50wikqehaUR5wsdWWp2NpP?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <h4>
+        Keh Pohp
+        ·
+        Tahbo
+        </h4>
+    </div>
+    
+    <!-- Playlist 2 -->
+    <div class="playlist-card">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/77tIkCw27CaRciMEIPNihi?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <h4>Ra = Rei + na
+        ·
+        Tahbo</h4>
+    </div>
+    
+    <!-- Playlist 3 -->
+    <div class="playlist-card">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6plo4F1gonH4DsEMyISlWR?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <h4>Ra = Rei ^2+ Na^2
+        ·
+        Tahbo</h4>
+    </div>
+    
+    <!-- Playlist 4 -->
+    <div class="playlist-card">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1nheFKTz64AAwQ0bftMfl9?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <h4>
+        AnimeMiku
+        ·
+        Tahbo</h4>
+    </div>
+    
+    <!-- Playlist 5 -->
+    <div class="playlist-card">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5Rhd1qhGUrEYxPYK2oq41N?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <h4>OST
+        ·
+        Tahbo</h4>
+    </div>
+  </div>
+  
+  <a href="https://open.spotify.com/user/22ebcfcuo3tdj5i3v4gmuelza?si=2ca6a8fdc0014c99" target="_blank" class="social-link">View All Playlists →</a>
+</div>
+<!--===============================================================================================================================================-->
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+<!--===============================================================================================================================================-->
+  <!-- Footer -->
+  <footer>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-github"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p>&copy; 2023 AyeYou. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+<!-- Add this popup HTML before closing </body> -->
+<div class="website-popup" id="websitePopup">
+  <div class="popup-content">
+    <span class="close-popup">&times;</span>
+    <h3>My Websites and Apps</h3>
+    <div class="website-grid">
+      <!-- Example website entries - replace with your actual sites -->
+      <a href="https://portfolio.example.com" target="_blank" class="website-card">
+        <img src="/src/library/images/pizzashop.png" alt="Portfolio" class="website-thumb">
+        <h4>Pizza Shop</h4>
+        <p>....</p>      </a>
+      
+      <a href="https://blog.example.com" target="_blank" class="website-card">
+        <img src="https://via.placeholder.com/150" alt="Blog" class="website-thumb">
+        <h4>Note Taking App(testing phase)</h4>
+        <p>....</p>
+      </a>
+
+      <a href="https://portfolio.example.com" target="_blank" class="website-card">
+        <img src="/src/library/images/blog.jpg" alt="Portfolio" class="website-thumb">
+        <h4>Blog</h4>
+        <p>....</p>      </a>
+
+      <a href="https://portfolio.example.com" target="_blank" class="website-card">
+        <img src="https://via.placeholder.com/150" alt="Portfolio" class="website-thumb">
+        <h4>Possible Game Integration</h4>
+        <p>....</p>      </a>
+      
+      <!-- Add more websites as needed -->
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+/*===============================================================*/
+/* ===== Root Variables & General Styles ===== */
+:root {
+    --bg-light: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    --bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --text-light: #333;
+    --text-dark: #f5f7fa;
+    --nav-light: rgba(255, 255, 255, 0.9);
+    --nav-dark: rgba(15, 32, 39, 0.9);
+    --card-light: #fff;
+    --card-dark: rgba(44, 83, 100, 0.7);
+    --primary-gradient: linear-gradient(135deg, #a8edea, #fed6e3);
+    --transition: all 0.3s ease;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-light);
+    background: var(--bg-light);
+    transition: var(--transition);
+  }
+
+/* GitHub Repo Cards */
+.github-repo {
+    background: var(--card-light);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  body.dark-mode .github-repo {
+    background: var(--card-dark);
+  }
+  
+  .repo-name {
+    font-weight: 600;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  body.dark-mode .repo-name {
+    color: var(--text-dark);
+  }
+  
+  .repo-name:hover {
+    color: #a8edea;
+  }
+  
+  .repo-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 8px 0;
+  }
+  
+  body.dark-mode .repo-description {
+    color: #bbb;
+  }
+  
+  .repo-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #777;
+  }
+  
+  body.dark-mode .repo-meta {
+    color: #999;
+  }
+  
+  .repo-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .repo-meta i {
+    font-size: 0.7rem;
+  }
+
+
+  /* Minimal Slider Styles (Add to existing CSS) */
+.repo-slider {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  
+  .repo-slide {
+    min-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background: #a8edea;
+  }
+  
+  body.dark-mode .dot {
+    background: #555;
+  }
+  
+  body.dark-mode .dot.active {
+    background: #fed6e3;
+  }

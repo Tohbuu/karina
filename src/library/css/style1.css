@@ -1,0 +1,333 @@
+/* Dark Mode Variables */
+:root {
+  --bg-light: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  --bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --text-light: #333;
+  --text-dark: #f5f7fa;
+  --nav-light: rgba(255, 255, 255, 0.9);
+  --nav-dark: rgba(15, 32, 39, 0.9);
+  --card-light: #fff;
+  --card-dark: rgba(44, 83, 100, 0.7);
+}
+
+/* Dark Mode Toggle Switch */
+.theme-toggle {
+  position: relative;
+  display: inline-block;
+}
+
+#darkmode-toggle {
+  opacity: 0;
+  position: absolute;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+  height: 30px;
+  background: var(--nav-dark);
+  border-radius: 50px;
+  padding: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle-ball {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+}
+
+#darkmode-toggle:checked + .toggle-label .toggle-ball {
+  transform: translateX(30px);
+}
+
+.toggle-label i {
+  font-size: 16px;
+}
+
+.fa-moon {
+  color: #f1c40f;
+}
+
+.fa-sun {
+  color: #f39c12;
+}
+
+/* Dark Mode Global Styles */
+body.dark-mode {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode nav {
+  background: var(--nav-dark);
+}
+
+body.dark-mode .nav-logo a,
+body.dark-mode .nav-links a {
+  color: var(--text-dark);
+}
+
+body.dark-mode .skill-card,
+body.dark-mode .project-card {
+  background: var(--card-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode button,
+body.dark-mode input,
+body.dark-mode textarea {
+  background: rgba(44, 83, 100, 0.8);
+  color: var(--text-dark);
+  border-color: #2c5364;
+}
+
+body.dark-mode .progress {
+  background: #203a43;
+}
+
+body.dark-mode footer {
+  background: #0f2027;
+}
+
+
+/*=========================
+  
+/* Hero Slideshow Styles */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+.hero-content {
+  text-align: center;
+  color: #333;
+  padding: 0 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  color: #333;
+  text-decoration: none;
+  animation: bounce 2s infinite;
+  z-index: 10;
+}
+
+.slide-indicators {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #333;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.indicator.active {
+  background: #333;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-20px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-10px) translateX(-50%);
+  }
+}
+
+
+
+/*===============================================================*/
+
+/* Social Status Section */
+.social-status {
+  padding: 100px 20px;
+  background: var(--bg-light);
+  text-align: center;
+  transition: background 0.3s ease;
+}
+body.dark-mode .social-status {
+  background: var(--bg-dark);
+}
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto 0;
+}
+
+.social-card {
+  background: var(--card-light);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+body.dark-mode .social-card {
+  background: var(--card-dark);
+  color: var(--text-dark);
+}
+
+.social-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.social-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-header i {
+  font-size: 2rem;
+  color: #a8edea;
+}
+
+.social-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.twitter { border-top: 4px solid #1DA1F2; }
+.github { border-top: 4px solid #333; }
+.linkedin { border-top: 4px solid #0077B5; }
+
+.twitter-embed,
+.github-activity,
+.linkedin-embed {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(168, 237, 234, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #a8edea;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+.social-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: #a8edea;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* Dark Mode Overrides */
+.social-header h3,
+.social-link {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .social-header h3,
+body.dark-mode .social-link {
+  color: var(--text-dark);
+}
+
+body.dark-mode .social-link:hover {
+  color: #a8edea;
+}
+
+/* Twitter dark mode */
+.twitter-embed .twitter-tweet {
+  margin: 0 auto;
+}
+
+/* GitHub dark mode */
+body.dark-mode .github-activity {
+  color: #f0f0f0;
+}
+
+/* LinkedIn dark mode override */
+body.dark-mode .LI-profile-badge {
+  --badge-background-color: var(--card-dark) !important;
+  --badge-text-color: var(--text-dark) !important;
+}
