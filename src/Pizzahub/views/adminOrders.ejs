@@ -1,0 +1,49 @@
+<!-- views/partials/head.ejs -->
+<%- include('partials/head') %>
+<body>
+  <h2>Manage Orders</h2>
+
+  <% if (errorMessage) { %>
+    <div class="error"><%= errorMessage %></div>
+  <% } %>
+
+  <table>
+    <caption>Order Management Table</caption>
+    <thead>
+      <tr><th>#</th><th>User</th><th>Pizza</th><th>Status</th><th>Date</th><th>Action</th></tr>
+    </thead>
+    <% if (orders && orders.length > 0) { %>
+      <tbody>
+        <% orders.forEach((o, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= o.user %></td>
+            <td><%= o.pizza %></td>
+            <td><%= o.status %></td>
+            <td><%= format(new Date(o.created_at), 'yyyy-MM-dd HH:mm:ss') %></td>
+            <td>
+              <form method="POST" action="/admin/orders/update">
+                <input type="hidden" name="orderId" value="<%= o.id %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <select name="status" aria-label="Order Status">
+                  <% o.statusOptions.forEach(option => { %>
+                    <option value="<%= option.value %>"<%= option.selected ? ' selected' : '' %>><%= option.value %></option>
+                  <% }) %>
+                </select>
+                <button type="submit" aria-label="Update Order Status" onclick="this.disabled=true; this.form.submit();">Update</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    <% } else { %>
+      <tbody>
+        <tr>
+          <td colspan="6">No orders available.</td>
+        </tr>
+      </tbody>
+    <% } %>
+  </table>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</body>
+</html>

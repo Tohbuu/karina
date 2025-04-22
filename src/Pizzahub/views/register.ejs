@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script defer src="/js/theme.js"></script>
   <title>Register | PizzaHub</title>
 </head>
@@ -12,7 +12,9 @@
     <h1>Create your PizzaHub account</h1>
     <% if (error) { %><div class="error"><%= error %></div><% } %>
     <form action="/register" method="POST">
-      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Full Name" required />
       <input type="email" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
       <select name="role">
@@ -27,3 +29,11 @@
 </html>
 
 
+<% if (locals.message) { %>
+    <div class="toast"><%= message %></div>
+    <script>
+      setTimeout(() => {
+        document.querySelector('.toast').remove();
+      }, 3000);
+    </script>
+  <% } %>

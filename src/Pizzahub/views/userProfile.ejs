@@ -1,0 +1,17 @@
+<%- include('partials/head') %>
+<body>
+  <h2>Update Profile</h2>
+  <% if (message) { %><p><%= message %></p><% } %>
+
+  <form method="POST" action="/user/profile">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label>Name:</label>
+    <input type="text" name="name" value="<%= user.name %>" required>
+    <label>Password:</label>
+    <input type="password" name="password" placeholder="New password" required>
+    <button type="submit">Update</button>
+  </form>
+
+  <a href="/user/dashboard">← Back to Dashboard</a>
+</body>
+</html>

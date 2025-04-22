@@ -1,0 +1,38 @@
+<%- include('partials/head') %>
+<body>
+  <header>
+    <h2>🧾 Order History</h2>
+    <a href="/user/dashboard">← Back to Dashboard</a>
+  </header>
+
+  <main>
+    <% if (orders.length === 0) { %>
+      <p>No orders yet!</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pizza</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Ordered At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach((order, i) => { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= order.pizza_name %></td>
+              <td>₱<%= order.price %></td>
+              <td><%= order.status %></td>
+              <td><%= new Date(order.created_at).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  </main>
+</body>
+</html>

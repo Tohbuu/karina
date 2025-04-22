@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script defer src="/js/theme.js"></script>
   <title>User Dashboard | PizzaHub</title>
 </head>
@@ -11,25 +11,40 @@
   <header>
     <h2>Welcome, <%= user.name %> 👋</h2>
     <a href="/logout">Logout</a>
+    <button id="themeToggle" class="toggle-mode">🌗 Toggle Mode</button>
+    <a href="/user/history">📄 View Order History</a>
+
+    <form action="/user/search" method="GET">
+      <input type="text" name="q" placeholder="Search pizzas..." required>
+      <button type="submit">🔍</button>
+    </form>
   </header>
 
   <main class="pizza-list">
     <h3>Available Pizzas</h3>
     <% pizzas.forEach(pizza => { %>
-      <div class="pizza-card">
-        <img src="/images/<%= pizza.image %>" alt="<%= pizza.name %>" />
-        <h4><%= pizza.name %></h4>
-        <p><%= pizza.description %></p>
-        <strong>₱<%= pizza.price %></strong>
-        <form action="/user/order/<%= pizza.id %>" method="POST">
-          <input type="number" name="quantity" value="1" min="1" />
-          <button type="submit">Order</button>
-        </form>
-      </div>
-    <% }) %>
+        <div class="pizza-card">
+          <img src="/uploads/<%= pizza.image %>" alt="<%= pizza.name %>" width="150">
+          <h3><%= pizza.name %></h3>
+          <p>₱<%= pizza.price %></p>
+          <form method="POST" action="/user/order">
+            <input type="hidden" name="pizza_id" value="<%= pizza.id %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit">Order</button>
+          </form>
+        </div>
+      <% }) %>
   </main>
 </body>
 </html>
 
 <!-- views/partials/head.ejs -->
 
+<% if (locals.message) { %>
+    <div class="toast"><%= message %></div>
+    <script>
+      setTimeout(() => {
+        document.querySelector('.toast').remove();
+      }, 3000);
+    </script>
+  <% } %>

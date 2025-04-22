@@ -3,61 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script defer src="/js/theme.js"></script>
     
-  <title>Admin Dashboard | PizzaHub</title>
+    <title>Admin Dashboard | PizzaHub</title>
 </head>
 <body>
   <header>
     <h2>Welcome Admin, <%= admin.name %> 🍕</h2>
     <a href="/logout">Logout</a>
+    <button id="themeToggle" class="toggle-mode">🌗 Toggle Mode</button>
   </header>
 
   <main>
     <section>
       <h3>Add Pizza</h3>
-      <form action="/admin/add-pizza" method="POST">
-        <input type="text" name="name" placeholder="Name" required />
-        <input type="text" name="description" placeholder="Description" required />
-        <input type="number" step="0.01" name="price" placeholder="Price" required />
-        <input type="text" name="image" placeholder="Image filename" required />
+      <form onsubmit="return validatePizzaForm()" action="/admin/add-pizza" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <label for="pizzaName">Pizza Name:</label>
+        <input id="pizzaName" type="text" name="name" placeholder="Pizza Name" required>
+        
+        <label for="pizzaPrice">Price:</label>
+        <input id="pizzaPrice" type="number" name="price" placeholder="Price" required>
+        
+        <label for="pizzaDescription">Description:</label>
+        <textarea id="pizzaDescription" name="description" placeholder="Pizza Description" required></textarea>
+        
+        <label for="pizzaImage">Image:</label>
+        <input id="pizzaImage" type="file" name="image" accept="image/*" required>
+        
         <button type="submit">Add Pizza</button>
       </form>
+      <script>
+        function validatePizzaForm() {
+          const name = document.querySelector('input[name="name"]').value.trim();
+          const price = document.querySelector('input[name="price"]').value;
+          const description = document.querySelector('textarea[name="description"]').value.trim();
+          const image = document.querySelector('input[name="image"]').value;
+
+          if (!name) {
+            alert('Pizza name is required.');
+            return false;
+          }
+          if (price <= 0) {
+            alert('Price must be a positive number.');
+            return false;
+          }
+          if (!description) {
+            alert('Pizza description is required.');
+            return false;
+          }
+          if (!image) {
+            alert('Please upload an image.');
+            return false;
+          }
+          return true;
+        }
+      </script>
     </section>
 
     <section>
       <h3>Pizza List</h3>
-      <% pizzas.forEach(pizza => { %>
-        <div class="pizza-card">
-          <img src="/images/<%= pizza.image %>" />
-          <h4><%= pizza.name %></h4>
-          <p><%= pizza.description %></p>
-          <strong>₱<%= pizza.price %></strong>
-          <form action="/admin/delete-pizza/<%= pizza.id %>" method="POST">
-            <button type="submit">Delete</button>
-          </form>
-        </div>
-      <% }) %>
+      <% if (pizzas.length === 0) { %>
+        <p>No pizzas available.</p>
+      <% } else { %>
+        <% pizzas.forEach(pizza => { %>
+          <div class="pizza-card">
+            <img src="/uploads/<%= pizza.image %>" alt="Image of <%= pizza.name %>" />
+            <h4><%= pizza.name %></h4>
+            <p><%= pizza.description %></p>
+            <strong>₱<%= pizza.price %></strong>
+            <form action="/admin/delete-pizza/<%= pizza.id %>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit">Delete</button>
+            </form>
+          </div>
+        <% }) %>
+      <% } %>
     </section>
 
     <section>
       <h3>Orders</h3>
-      <% orders.forEach(order => { %>
-        <div class="order-box">
-          <p><strong><%= order.customer %></strong> ordered <%= order.pizza %> × <%= order.quantity %></p>
-          <form action="/admin/order-status/<%= order.id %>" method="POST">
-            <select name="status">
-              <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
-              <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>Completed</option>
-            </select>
-            <button type="submit">Update</button>
-          </form>
-        </div>
-      <% }) %>
+      <% if (orders.length === 0) { %>
+        <p>No orders to display.</p>
+      <% } else { %>
+        <% orders.forEach(order => { %>
+          <div class="order-box">
+            <p><strong><%= order.customer %></strong> ordered <%= order.pizza %> × <%= order.quantity %></p>
+            <form action="/admin/order-status/<%= order.id %>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <select name="status">
+                <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                <option value="preparing" <%= order.status === 'preparing' ? 'selected' : '' %>>Preparing</option>
+                <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>Completed</option>
+              </select>
+              <button type="submit">Update</button>
+            </form>
+          </div>
+        <% }) %>
+      <% } %>
     </section>
   </main>
+
+  <% if (locals.message) { %>
+    <div class="toast"><%= message %></div>
+    <script>
+      setTimeout(() => {
+        document.querySelector('.toast').remove();
+      }, 3000);
+    </script>
+  <% } %>
 </body>
 </html>
-
-<!-- views/partials/head.ejs -->

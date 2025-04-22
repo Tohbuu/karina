@@ -2,43 +2,133 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const { isAdmin } = require('../middleware/auth');
+const multer = require('multer');
+const path = require('path');
+const { body, validationResult } = require('express-validator');
+
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, path.join(__dirname, '../public/uploads/')),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage });
 
 // Admin Dashboard
 router.get('/dashboard', isAdmin, async (req, res) => {
-  const [pizzas] = await db.execute('SELECT * FROM pizzas');
-  const [orders] = await db.execute(`
-    SELECT orders.id, users.name as customer, pizzas.name as pizza, orders.quantity, orders.status
-    FROM orders
-    JOIN users ON orders.user_id = users.id
-    JOIN pizzas ON orders.pizza_id = pizzas.id
-    ORDER BY orders.id DESC
-  `);
-  res.render('adminDashboard', { admin: req.session.user, pizzas, orders });
+  try {
+    const [pizzas] = await db.execute('SELECT * FROM pizzas');
+    const [orders] = await db.execute(`
+      SELECT orders.id, users.name as customer, pizzas.name as pizza, orders.quantity, orders.status
+      FROM orders
+      JOIN users ON orders.user_id = users.id
+      JOIN pizzas ON orders.pizza_id = pizzas.id
+      ORDER BY orders.id DESC
+    `);
+    res.render('adminDashboard', { admin: req.session.user, pizzas, orders, csrfToken: req.csrfToken() });
+  } catch (error) {
+    console.error('Error loading dashboard:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Add Pizza
-router.post('/add-pizza', isAdmin, async (req, res) => {
-  const { name, description, price, image } = req.body;
-  await db.execute(
-    'INSERT INTO pizzas (name, description, price, image) VALUES (?, ?, ?, ?)',
-    [name, description, price, image]
-  );
-  res.redirect('/admin/dashboard');
-});
+router.post(
+  '/add-pizza',
+  upload.single('image'), // multer handles the file upload
+  [
+    body('name').notEmpty().withMessage('Name is required'),
+    body('description').notEmpty().withMessage('Description is required'),
+    body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number')
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, description, price } = req.body;
+    const image = req.file ? req.file.filename : null;
+    try {
+      await db.execute(
+        'INSERT INTO pizzas (name, description, price, image) VALUES (?, ?, ?, ?)',
+        [name, description, price, image]
+      );
+      res.redirect('/admin/dashboard');
+    } catch (error) {
+      console.error('Error adding pizza:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+);
 
 // Delete Pizza
 router.post('/delete-pizza/:id', isAdmin, async (req, res) => {
   const id = req.params.id;
-  await db.execute('DELETE FROM pizzas WHERE id = ?', [id]);
-  res.redirect('/admin/dashboard');
+  try {
+    await db.execute('DELETE FROM pizzas WHERE id = ?', [id]);
+    res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.error('Error deleting pizza:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Update Order Status
 router.post('/order-status/:id', isAdmin, async (req, res) => {
   const id = req.params.id;
   const { status } = req.body;
-  await db.execute('UPDATE orders SET status = ? WHERE id = ?', [status, id]);
-  res.redirect('/admin/dashboard');
+  try {
+    await db.execute('UPDATE orders SET status = ? WHERE id = ?', [status, id]);
+    res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// View Orders
+router.get('/orders', isAdmin, async (req, res) => {
+  try {
+    const [orders] = await db.execute(`
+      SELECT o.id, u.name AS user, p.name AS pizza, o.status, o.created_at
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      JOIN pizzas p ON o.pizza_id = p.id
+      ORDER BY o.created_at DESC
+    `);
+    res.render('adminOrders', { admin: req.session.user, orders, csrfToken: req.csrfToken() });
+  } catch (error) {
+    console.error('Error loading orders:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Update Orders
+router.post('/orders/update', isAdmin, async (req, res) => {
+  const { orderId, status } = req.body;
+  try {
+    await db.execute('UPDATE orders SET status = ? WHERE id = ?', [status, orderId]);
+    res.redirect('/admin/orders');
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Update Order Status
+router.post('/update-order-status', async (req, res, next) => {
+  try {
+    const { orderId, status } = req.body;
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).render('404', { message: 'Order not found' });
+    }
+    order.status = status;
+    await order.save();
+    res.redirect('/admin/orders');
+  } catch (err) {
+    next(err); // Pass the error to the global error handler
+  }
 });
 
 module.exports = router;
