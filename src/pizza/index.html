@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PizzaHub 🍕</title>
+  <link rel="stylesheet" href="/src/pizza/css/style.css" />
+</head>
+<body class="light">
+  <nav class="navbar">
+    <h1>PizzaHub 🍕</h1>
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#features">Why Us</a></li>
+      <li><a href="#newsletter">Subscribe</a></li>
+      <li><a href="/src/pizza/frontend/dashboard.ejs">Dashboard</a></li>
+      <li><a href="/src/pizza/frontend/login.ejs" id="loginBtn">Login</a></li>
+      <li><button id="themeToggle">🌙</button></li>
+    </ul>
+  </nav>
+
+  <header id="hero" class="hero fade-in">
+    <h2>Craving Pizza?</h2>
+    <p>Get your favorite slices delivered hot and fresh.</p>
+    <a href="#menu" class="btn">See Menu</a>
+  </header>
+
+  <section id="menu" class="menu-section fade-in">
+    <h3>Popular Picks</h3>
+    <div class="pizza-grid">
+      <div class="pizza-card">
+        <img src="https://i.imgur.com/QqVHdRu.png" alt="Pepperoni Pizza">
+        <h4>Pepperoni</h4>
+        <p>Spicy & Savory</p>
+        <button class="btn small">Order</button>
+      </div>
+      <div class="pizza-card">
+        <img src="https://i.imgur.com/6LZcRNL.png" alt="Margherita Pizza">
+        <h4>Margherita</h4>
+        <p>Classic & Cheesy</p>
+        <button class="btn small">Order</button>
+      </div>
+      <div class="pizza-card">
+        <img src="https://i.imgur.com/sMiCHek.png" alt="Hawaiian Pizza">
+        <h4>Hawaiian</h4>
+        <p>Sweet & Tangy</p>
+        <button class="btn small">Order</button>
+      </div>
+      <div class="pizza-card">
+        <img src="https://i.imgur.com/mPz5Ncy.png" alt="Veggie Pizza">
+        <h4>Veggie Delight</h4>
+        <p>Fresh & Healthy</p>
+        <button class="btn small">Order</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features fade-in">
+    <h3>Why Choose PizzaHub?</h3>
+    <ul>
+      <li>🔥 Oven-fresh quality</li>
+      <li>🚚 Fast delivery</li>
+      <li>💳 Easy payment</li>
+    </ul>
+  </section>
+
+  <section id="newsletter" class="newsletter fade-in">
+    <h3>Join Our Pizza Club</h3>
+    <p>Subscribe for hot deals and cheesy news.</p>
+    <input type="email" placeholder="Enter your email">
+    <button class="btn">Subscribe</button>
+  </section>
+
+  <footer class="fade-in">
+    <p>&copy; 2025 PizzaHub. All rights reserved.</p>
+  </footer>
+
+  <script src="/src/pizza/js/script.js"></script>
+  <script src="/src/pizza/js/server.js"></script>
+
+</body>
+</html>
