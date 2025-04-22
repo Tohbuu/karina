@@ -67,6 +67,10 @@ router.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/login'));
 });
 
-module.exports = {
-  router,
-};
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
+});
+
+module.exports = router;

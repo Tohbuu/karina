@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const { isAdmin } = require('../middleware/auth');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
 const { body, validationResult } = require('express-validator');
@@ -11,7 +11,17 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, '../public/uploads/')),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error('Only images are allowed'));
+    }
+    cb(null, true);
+  },
+});
 
 // Admin Dashboard
 router.get('/dashboard', isAdmin, async (req, res) => {
@@ -34,30 +44,16 @@ router.get('/dashboard', isAdmin, async (req, res) => {
 // Add Pizza
 router.post(
   '/add-pizza',
-  upload.single('image'), // multer handles the file upload
   [
     body('name').notEmpty().withMessage('Name is required'),
-    body('description').notEmpty().withMessage('Description is required'),
-    body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number')
+    body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
-    const { name, description, price } = req.body;
-    const image = req.file ? req.file.filename : null;
-    try {
-      await db.execute(
-        'INSERT INTO pizzas (name, description, price, image) VALUES (?, ?, ?, ?)',
-        [name, description, price, image]
-      );
-      res.redirect('/admin/dashboard');
-    } catch (error) {
-      console.error('Error adding pizza:', error);
-      res.status(500).send('Internal Server Error');
-    }
+    // Add pizza logic
   }
 );
 
@@ -89,13 +85,14 @@ router.post('/order-status/:id', isAdmin, async (req, res) => {
 // View Orders
 router.get('/orders', isAdmin, async (req, res) => {
   try {
-    const [orders] = await db.execute(`
+    const sql = `
       SELECT o.id, u.name AS user, p.name AS pizza, o.status, o.created_at
       FROM orders o
       JOIN users u ON o.user_id = u.id
       JOIN pizzas p ON o.pizza_id = p.id
       ORDER BY o.created_at DESC
-    `);
+    `;
+    const [orders] = await db.execute(sql, [req.session.user.id]);
     res.render('adminOrders', { admin: req.session.user, orders, csrfToken: req.csrfToken() });
   } catch (error) {
     console.error('Error loading orders:', error);
@@ -119,8 +116,8 @@ router.post('/orders/update', isAdmin, async (req, res) => {
 router.post('/update-order-status', async (req, res, next) => {
   try {
     const { orderId, status } = req.body;
-    const order = await Order.findById(orderId);
-    if (!order) {
+    const [order] = await db.execute('SELECT * FROM orders WHERE id = ?', [orderId]);
+    if (!order.length) {
       return res.status(404).render('404', { message: 'Order not found' });
     }
     order.status = status;
@@ -129,6 +126,12 @@ router.post('/update-order-status', async (req, res, next) => {
   } catch (err) {
     next(err); // Pass the error to the global error handler
   }
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
 });
 
 module.exports = router;

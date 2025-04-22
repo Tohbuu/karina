@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const csrf = require('csurf');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
@@ -17,13 +18,13 @@ if (!process.env.SESSION_SECRET) {
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/src', express.static(path.join(__dirname, '../src')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
+app.use(helmet());
 
 const csrfProtection = csrf();
 app.use(csrfProtection);
@@ -38,12 +39,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Ensure upload directory exists
-const uploadDir = path.join(__dirname, '/uploads/<%= pizza.image %>');
+const uploadDir = path.join(__dirname, 'public/uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // Multer configuration
+const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
@@ -55,8 +57,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
     storage: storage,
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
     fileFilter: (req, file, cb) => {
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (!allowedTypes.includes(file.mimetype)) {
             return cb(new Error('Only images are allowed'));
         }
@@ -66,7 +68,7 @@ const upload = multer({
 
 // Routes
 try {
-    const authRoutes = require('./routes/auth');
+    const authRoutes = require('./middleware/auth');
     const userRoutes = require('./routes/user');
     const adminRoutes = require('./routes/admin');
 
@@ -85,7 +87,7 @@ app.use((req, res) => {
 // Global error-handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).render('500', { message: 'Internal Server Error' });
+    res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
 });
 
 // Server

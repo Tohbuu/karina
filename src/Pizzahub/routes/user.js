@@ -1,19 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const { isAuthenticated } = require('../middleware/auth');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 const { body, param, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // Dashboard Route
-router.get('/dashboard', isAuthenticated, async (req, res) => {
+router.get('/dashboard', isAuthenticated, async (req, res, next) => {
   try {
     const [pizzas] = await db.execute('SELECT * FROM pizzas');
     res.render('userDashboard', { user: req.session.user, pizzas });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    next(error); // Pass the error to the global error handler
   }
 });
 
@@ -142,6 +141,11 @@ router.get('/search', isAuthenticated, async (req, res) => {
     console.error(err);
     res.render('userDashboard', { user: req.session.user, message: 'Search failed. Please try again later.' });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
 });
 
 module.exports = router;
