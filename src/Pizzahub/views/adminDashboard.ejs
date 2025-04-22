@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/theme.css">
+    <script defer src="/js/theme.js"></script>
+    
+  <title>Admin Dashboard | PizzaHub</title>
+</head>
+<body>
+  <header>
+    <h2>Welcome Admin, <%= admin.name %> 🍕</h2>
+    <a href="/logout">Logout</a>
+  </header>
+
+  <main>
+    <section>
+      <h3>Add Pizza</h3>
+      <form action="/admin/add-pizza" method="POST">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="text" name="description" placeholder="Description" required />
+        <input type="number" step="0.01" name="price" placeholder="Price" required />
+        <input type="text" name="image" placeholder="Image filename" required />
+        <button type="submit">Add Pizza</button>
+      </form>
+    </section>
+
+    <section>
+      <h3>Pizza List</h3>
+      <% pizzas.forEach(pizza => { %>
+        <div class="pizza-card">
+          <img src="/images/<%= pizza.image %>" />
+          <h4><%= pizza.name %></h4>
+          <p><%= pizza.description %></p>
+          <strong>₱<%= pizza.price %></strong>
+          <form action="/admin/delete-pizza/<%= pizza.id %>" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+      <% }) %>
+    </section>
+
+    <section>
+      <h3>Orders</h3>
+      <% orders.forEach(order => { %>
+        <div class="order-box">
+          <p><strong><%= order.customer %></strong> ordered <%= order.pizza %> × <%= order.quantity %></p>
+          <form action="/admin/order-status/<%= order.id %>" method="POST">
+            <select name="status">
+              <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+              <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>Completed</option>
+            </select>
+            <button type="submit">Update</button>
+          </form>
+        </div>
+      <% }) %>
+    </section>
+  </main>
+</body>
+</html>
+
+<!-- views/partials/head.ejs -->

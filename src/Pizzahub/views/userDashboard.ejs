@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/theme.css">
+    <script defer src="/js/theme.js"></script>
+  <title>User Dashboard | PizzaHub</title>
+</head>
+<body>
+  <header>
+    <h2>Welcome, <%= user.name %> 👋</h2>
+    <a href="/logout">Logout</a>
+  </header>
+
+  <main class="pizza-list">
+    <h3>Available Pizzas</h3>
+    <% pizzas.forEach(pizza => { %>
+      <div class="pizza-card">
+        <img src="/images/<%= pizza.image %>" alt="<%= pizza.name %>" />
+        <h4><%= pizza.name %></h4>
+        <p><%= pizza.description %></p>
+        <strong>₱<%= pizza.price %></strong>
+        <form action="/user/order/<%= pizza.id %>" method="POST">
+          <input type="number" name="quantity" value="1" min="1" />
+          <button type="submit">Order</button>
+        </form>
+      </div>
+    <% }) %>
+  </main>
+</body>
+</html>
+
+<!-- views/partials/head.ejs -->
+

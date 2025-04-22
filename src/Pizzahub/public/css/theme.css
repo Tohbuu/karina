@@ -1,0 +1,76 @@
+:root {
+    --bg-light: #f9f9f9;
+    --text-light: #222;
+    --bg-dark: #121212;
+    --text-dark: #f1f1f1;
+    --primary: #ff6347;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  body.dark-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+  }
+  
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  button, input, select {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    margin: 0.3rem 0;
+  }
+  
+  .pizza-card, .order-box {
+    background: white;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+  
+  body.dark-mode .pizza-card, body.dark-mode .order-box {
+    background: #1f1f1f;
+    color: white;
+    box-shadow: 0 3px 8px rgba(255,255,255,0.1);
+  }
+  
+  .toggle-mode {
+    cursor: pointer;
+    background: black;
+    color: white;
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    z-index: 999;
+    animation: fadein 0.3s ease-in;
+  }
+  
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
