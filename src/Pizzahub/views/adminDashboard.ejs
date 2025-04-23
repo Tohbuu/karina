@@ -45,7 +45,7 @@
             alert('Pizza name is required.');
             return false;
           }
-          if (price <= 0) {
+          if (Number(price) <= 0) {
             alert('Price must be a positive number.');
             return false;
           }
@@ -90,7 +90,8 @@
         <% orders.forEach(order => { %>
           <div class="order-box">
             <p><strong><%= order.customer %></strong> ordered <%= order.pizza %> × <%= order.quantity %></p>
-            <form action="/admin/order-status/<%= order.id %>" method="POST">
+            <form action="/admin/update-order-status" method="POST">
+              <input type="hidden" name="orderId" value="<%= order.id %>">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <select name="status">
                 <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
@@ -106,13 +107,13 @@
     </section>
   </main>
 
-  <% if (locals.message) { %>
+  <% if (typeof message !== 'undefined' && message) { %>
     <div class="toast"><%= message %></div>
-    <script>
-      setTimeout(() => {
-        document.querySelector('.toast').remove();
-      }, 3000);
-    </script>
   <% } %>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.toast').remove();
+    }, 3000);
+  </script>
 </body>
 </html>

@@ -57,7 +57,6 @@ router.post(
         admin: req.session.user,
         pizzas: [],
         orders: [],
-        csrfToken: req.csrfToken(),
         errors: errors.array(),
       });
     }
@@ -115,6 +114,13 @@ router.get('/orders', isAdmin, async (req, res) => {
       ORDER BY o.created_at DESC
     `;
     const [orders] = await db.execute(sql, [req.session.user.id]);
+    const statusValues = ['pending', 'preparing', 'delivered', 'completed'];
+    orders.forEach(order => {
+      order.statusOptions = statusValues.map(value => ({
+        value,
+        selected: order.status === value
+      }));
+    });
     res.render('adminOrders', { admin: req.session.user, orders, csrfToken: req.csrfToken() });
   } catch (error) {
     console.error('Error loading orders:', error);
@@ -135,21 +141,18 @@ router.post('/orders/update', isAdmin, async (req, res) => {
 });
 
 // Update Order Status
-router.post('/update-order-status', async (req, res, next) => {
+router.post('/update-order-status', isAdmin, async (req, res, next) => {
   try {
     const { orderId, status } = req.body;
     const [order] = await db.execute('SELECT * FROM orders WHERE id = ?', [orderId]);
     if (!order.length) {
       return res.status(404).render('404', { message: 'Order not found' });
     }
-    order.status = status;
-    await order.save();
+    await db.execute('UPDATE orders SET status = ? WHERE id = ?', [status, orderId]);
     res.redirect('/admin/orders');
   } catch (err) {
-    next(err); // Pass the error to the global error handler
+    next(err);
   }
 });
-
-
 
 module.exports = router;

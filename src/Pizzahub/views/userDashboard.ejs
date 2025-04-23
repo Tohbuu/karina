@@ -28,8 +28,7 @@
           <img src="/uploads/<%= pizza.image %>" alt="<%= pizza.name %>" width="150">
           <h3><%= pizza.name %></h3>
           <p>₱<%= pizza.price %></p>
-          <form method="POST" action="/user/order">
-            <input type="hidden" name="pizza_id" value="<%= pizza.id %>">
+          <form method="POST" action="/user/order/<%= pizza.id %>">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button type="submit">Order</button>
           </form>

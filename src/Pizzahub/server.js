@@ -68,7 +68,16 @@ const upload = multer({
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Welcome to Pizzahub!');
+    if (req.session && req.session.user) {
+        // Redirect to dashboard based on role
+        if (req.session.user.role === 'admin') {
+            return res.redirect('/admin/dashboard');
+        } else {
+            return res.redirect('/user/dashboard');
+        }
+    }
+    // Not logged in, show login page
+    res.redirect('/login');
 });
 
 try {
