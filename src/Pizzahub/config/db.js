@@ -8,9 +8,13 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle database connection:', err);
-  process.exit(-1);
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Database connection failed:', err.message);
+  } else {
+    console.log('Connected to the database.');
+    connection.release();
+  }
 });
 
 module.exports = pool.promise();

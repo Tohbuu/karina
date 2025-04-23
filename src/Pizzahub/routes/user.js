@@ -73,13 +73,13 @@ router.get('/history', isAuthenticated, async (req, res) => {
 // Profile Routes
 router.get('/profile', async (req, res, next) => {
   try {
-    const user = await User.findById(req.session.userId);
-    if (!user) {
+    const [user] = await db.execute('SELECT * FROM users WHERE id = ?', [req.session.user.id]);
+    if (!user.length) {
       return res.status(404).render('404', { message: 'User not found' });
     }
-    res.render('userProfile', { user });
+    res.render('userProfile', { user: user[0] });
   } catch (err) {
-    next(err); // Pass the error to the global error handler
+    next(err);
   }
 });
 
@@ -141,11 +141,6 @@ router.get('/search', isAuthenticated, async (req, res) => {
     console.error(err);
     res.render('userDashboard', { user: req.session.user, message: 'Search failed. Please try again later.' });
   }
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
 });
 
 module.exports = router;

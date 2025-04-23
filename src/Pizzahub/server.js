@@ -67,6 +67,10 @@ const upload = multer({
 });
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Welcome to Pizzahub!');
+});
+
 try {
     const authRoutes = require('./middleware/auth');
     const userRoutes = require('./routes/user');

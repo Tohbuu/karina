@@ -20,7 +20,7 @@
             <td><%= o.user %></td>
             <td><%= o.pizza %></td>
             <td><%= o.status %></td>
-            <td><%= format(new Date(o.created_at), 'yyyy-MM-dd HH:mm:ss') %></td>
+            <td><%= new Date(o.created_at).toLocaleString() %></td>
             <td>
               <form method="POST" action="/admin/orders/update">
                 <input type="hidden" name="orderId" value="<%= o.id %>">

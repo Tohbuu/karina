@@ -44,16 +44,38 @@ router.get('/dashboard', isAdmin, async (req, res) => {
 // Add Pizza
 router.post(
   '/add-pizza',
+  upload.single('image'),
   [
     body('name').notEmpty().withMessage('Name is required'),
     body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+    body('description').notEmpty().withMessage('Description is required'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).render('adminDashboard', {
+        admin: req.session.user,
+        pizzas: [],
+        orders: [],
+        csrfToken: req.csrfToken(),
+        errors: errors.array(),
+      });
     }
-    // Add pizza logic
+
+    try {
+      const { name, price, description } = req.body;
+      const image = req.file.filename;
+      await db.execute('INSERT INTO pizzas (name, description, price, image) VALUES (?, ?, ?, ?)', [
+        name,
+        description,
+        price,
+        image,
+      ]);
+      res.redirect('/admin/dashboard');
+    } catch (error) {
+      console.error('Error adding pizza:', error);
+      res.status(500).send('Internal Server Error');
+    }
   }
 );
 
@@ -128,10 +150,6 @@ router.post('/update-order-status', async (req, res, next) => {
   }
 });
 
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).render('500', { message: err.message || 'Internal Server Error' });
-});
+
 
 module.exports = router;
