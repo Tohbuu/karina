@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const { isAuthenticated, isAdmin } = require('../middleware/auth');
+const { isAuthenticated, isAdmin } = require('../middleware/authMiddleware'); // Updated import
 const { body, param, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const { isAuthenticated, isAdmin } = require('../middleware/auth');
+const { isAuthenticated, isAdmin } = require('../middleware/authMiddleware'); // Updated import
 const multer = require('multer');
 const path = require('path');
-const { body, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -46,9 +46,9 @@ router.post(
   '/add-pizza',
   upload.single('image'),
   [
-    body('name').notEmpty().withMessage('Name is required'),
-    body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
-    body('description').notEmpty().withMessage('Description is required'),
+    check('name').notEmpty().withMessage('Name is required'),
+    check('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+    check('description').notEmpty().withMessage('Description is required'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
