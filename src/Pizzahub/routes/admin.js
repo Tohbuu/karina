@@ -9,7 +9,10 @@ const { check, validationResult } = require('express-validator');
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, '../public/uploads/')),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+  filename: (req, file, cb) => {
+    const safeName = Date.now() + path.extname(file.originalname);
+    cb(null, safeName);
+  }
 });
 const upload = multer({
   storage,

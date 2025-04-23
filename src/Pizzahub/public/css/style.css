@@ -2,63 +2,117 @@
     --bg: #ffffff;
     --text: #1a1a1a;
     --primary: #ff6347;
+    --primary-hover: #e5533d;
     --error: #ff4b4b;
-  }
-  
-  [data-theme="dark"] {
-    --bg: #1a1a1a;
+    --border: #e0e0e0;
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --transition: 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="dark"] {
+    --bg: #18191a;
     --text: #f1f1f1;
     --primary: #ffa07a;
+    --primary-hover: #ff7b7b;
     --error: #ff7b7b;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
+    --border: #333;
+    --shadow: 0 4px 24px rgba(0,0,0,0.32);
+}
+
+body {
+    font-family: 'Segoe UI', 'Inter', 'Roboto', Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     margin: 0;
     padding: 0;
-  }
-  
-  .auth-container {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 2rem;
+    min-height: 100vh;
+    transition: background var(--transition), color var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 2.5rem 2rem;
     background: var(--bg);
-    box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    border-radius: 10px;
-  }
-  
-  .auth-container h1 {
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: box-shadow var(--transition), border var(--transition), background var(--transition);
+}
+
+.auth-container h1 {
     text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  form input, form select {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+form input, form select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  button {
+    padding: 12px;
+    margin-bottom: 1.2rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    color: var(--text);
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    outline: none;
+    box-sizing: border-box;
+}
+
+form input:focus, form select:focus {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(255,99,71,0.08);
+}
+
+button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: var(--primary);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: bold;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
     cursor: pointer;
-  }
-  
-  .error {
+    transition: background var(--transition), box-shadow var(--transition);
+    box-shadow: 0 2px 8px rgba(255,99,71,0.08);
+    letter-spacing: 0.5px;
+}
+
+button:hover, button:focus {
+    background: var(--primary-hover);
+    box-shadow: 0 4px 16px rgba(255,99,71,0.12);
+}
+
+.error {
     background: var(--error);
     color: white;
-    padding: 10px;
-    margin-bottom: 1rem;
+    padding: 12px;
+    margin-bottom: 1.2rem;
     text-align: center;
-    border-radius: 6px;
-  }
-  
+    border-radius: 8px;
+    font-size: 1rem;
+    letter-spacing: 0.2px;
+    box-shadow: 0 2px 8px rgba(255,75,75,0.08);
+}
+
+@media (max-width: 600px) {
+    .auth-container {
+        max-width: 98vw;
+        padding: 1.2rem 0.5rem;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+    }
+    body {
+        padding: 0;
+    }
+}

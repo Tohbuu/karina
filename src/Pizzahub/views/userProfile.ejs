@@ -1,6 +1,13 @@
 <%- include('partials/head') %>
 <body>
   <h2>Update Profile</h2>
+  <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+    <ul class="error-list">
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+  <% } %>
   <% if (message) { %><p><%= message %></p><% } %>
 
   <form method="POST" action="/user/profile">
