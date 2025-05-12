@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyroGuard AI - Fire Alarm System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-fire"></i>
+                <span>PyroGuard AI</span>
+            </div>
+            <div class="nav-links">
+                <button class="active" onclick="showTab('dashboard')">
+                    <i class="fas fa-home"></i> Dashboard
+                </button>
+                <button onclick="showTab('alerts')">
+                    <i class="fas fa-bell"></i> Alerts
+                </button>
+                <button onclick="showTab('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+                <button onclick="showTab('profile')">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Dashboard Tab Content -->
+            <div id="dashboard" class="tab-content active">
+                <!-- Emergency Alert -->
+                <div class="emergency-alert hidden">
+                    <h2>FIRE ALERT!</h2>
+                    <p>Smoke detected in Kitchen</p>
+                    <div class="emergency-actions">
+                        <button onclick="silenceAlarm()">
+                            <i class="fas fa-volume-mute"></i> Silence Alarm
+                        </button>
+                        <button class="call-emergency">
+                            <i class="fas fa-phone"></i> Call Emergency
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status Cards -->
+                <div class="status-cards">
+                    <div class="status-card">
+                        <div class="card-icon">🌡️</div>
+                        <div class="card-content">
+                            <h3>Temperature</h3>
+                            <p id="temp-value">22.5°C</p>
+                        </div>
+                    </div>
+                    <!-- More cards... -->
+                </div>
+
+                <!-- Graphs -->
+                <div class="sensor-graphs">
+                    <canvas id="tempChart"></canvas>
+                    <canvas id="smokeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Other tabs... -->
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
