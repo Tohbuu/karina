@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireAlarm(TestingPhase) - Alerts</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+        <!-- Same navbar as index.html -->
+         <div class="app">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-fire"></i>
+                <span>FireAlarm(TestingPhase)</span>
+            </div>
+            <div class="nav-links">
+                <button class="active" onclick="showTab('dashboard')">
+                    <i class="fas fa-home"></i> Dashboard
+                </button>
+                <button onclick="showTab('alerts')">
+                    <i class="fas fa-bell"></i> Alerts
+                </button>
+                <button onclick="showTab('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+                <button onclick="showTab('profile')">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </nav>
+
+
+
+        
+        <main class="main-content">
+            <div class="alerts-container">
+                <h2>Recent Alerts</h2>
+                <div id="no-alerts" class="no-alerts">Loading alerts...</div>
+                <ul class="alerts-list" id="alerts-list"></ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAlerts();
+            document.querySelector('a[href="alerts.html"]').classList.add('active');
+        });
+
+        function loadAlerts() {
+            const alerts = JSON.parse(localStorage.getItem('pyroguard-alerts') || '[]');
+            const list = document.getElementById('alerts-list');
+            const noAlerts = document.getElementById('no-alerts');
+            
+            list.innerHTML = '';
+            
+            if (alerts.length === 0) {
+                noAlerts.textContent = 'No alerts found';
+                return;
+            }
+            
+            noAlerts.style.display = 'none';
+            alerts.forEach(alert => {
+                const li = document.createElement('li');
+                li.className = `alert-item ${alert.severity}`;
+                li.innerHTML = `
+                    <div class="alert-icon">
+                        <i class="fas ${alert.severity === 'critical' ? 
+                          'fa-exclamation-triangle' : 'fa-info-circle'}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <p>${alert.message}</p>
+                        <div class="alert-time">
+                            <i class="far fa-clock"></i>
+                            ${new Date(alert.timestamp).toLocaleString()}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- Same head -->
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FireAlarm(TestingPhase) - Fire Alarm System</title>
+    <title>PyroGuard AI - Fire Alarm System</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="app">
-        <nav class="navbar">
+        <!-- Same navbar -->
+         <nav class="navbar">
             <div class="navbar-brand">
-                <i class="fas fa-fire logo-icon"></i>
+                <i class="fas fa-fire"></i>
                 <span>PyroGuard AI</span>
             </div>
             <div class="nav-links">
@@ -31,18 +34,25 @@
         </nav>
         
         <main class="main-content">
-            <h1>Welcome to PyroGuard AI</h1>
-            <p>Select a section from the navigation menu</p>
+            <div class="settings-container" id="settings-container">
+                <!-- Settings form from earlier -->
+
+                
+            </div>
         </main>
     </div>
-    
+
     <script src="script.js"></script>
     <script>
-        // Highlight current page in nav
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPage = window.location.pathname.split('/').pop();
-            document.querySelector(`a[href="${currentPage}"]`).classList.add('active');
-        });
+        // Initialize settings
+        initSettings();
+        document.querySelector('a[href="settings.html"]').classList.add('active');
+        
+        // Load settings
+        function initSettings() {
+            const settings = JSON.parse(localStorage.getItem('pyroguard-settings')) || defaultSettings;
+            renderSettings(settings);
+        }
     </script>
 </body>
 </html>
